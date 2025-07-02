@@ -35,6 +35,8 @@ let fillWithButtons = () => {
     eraseButton.addEventListener('click', () => {
         inputArea.value = '';
         firstNumber = undefined;
+        operator = undefined;
+        secondNumber = undefined;
     });
     buttonsBlock.appendChild(eraseButton);
 
@@ -54,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 let inputArea = document.querySelector('input[type="text"]');
 
 let operationKeys = document.querySelectorAll('.operationKeys');
-let firstNumber, operator;
+let firstNumber, operator, secondNumber;
 
 operationKeys.forEach(key => {
     key.addEventListener('click', (event) => {
@@ -69,7 +71,7 @@ operationKeys.forEach(key => {
 let getOperationValueButton = document.querySelector('.equal')
 getOperationValueButton.addEventListener('click', (event) => {
     let secondNumber = inputArea.value;
-    console.log(secondNumber,firstNumber,operator);
+    console.log(secondNumber, firstNumber, operator);
     if (firstNumber !== undefined && operator !== undefined && secondNumber !== '') {
         clearMessagesList();
         firstNumber = inputArea.value = operate(firstNumber, operator, parseFloat(inputArea.value));
@@ -100,7 +102,13 @@ const insertMessageItemIntoList = (text, listElement) => {
     listElement.appendChild(messageElement);
     return listElement;
 };
+
 const clearMessagesList = () => {
     messagesBlock.innerHTML = '';
 };
 let messagesBlock = document.querySelector('.response-area');
+const deleteCharacterAction = document.querySelector('#delete-character');
+deleteCharacterAction.addEventListener('click', (event) => {
+    inputArea.value = inputArea.value.slice(0, -1);
+    console.log(inputArea.value);
+});
