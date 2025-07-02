@@ -15,3 +15,22 @@ let operate = (num1, operator, num2) => {
 
 console.log(operate(12, '*', 10));
 
+let createButtonsBlockElement = (element) => {
+    return  document.createElement(`${element}`);
+
+}
+let fillWithButtons = () => {
+
+    let buttonsBlock = document.querySelector('.buttons-block');
+    for (let i = 0; i < 10; i++) {
+        let button = createButtonsBlockElement('button');
+        button.textContent = `${i}`
+        buttonsBlock.appendChild(button);
+    }
+    let equalSign = createButtonsBlockElement('button');
+    equalSign.textContent = '.';
+    buttonsBlock.appendChild(equalSign);
+
+};
+
+document.addEventListener('DOMContentLoaded', fillWithButtons);
