@@ -11,13 +11,24 @@ const operations = {
         }
     },
 };
+let roundResult = (result) => {
+    let handledResult = String(result).split('.');
+    if (handledResult[1] !== undefined && handledResult[1][3] !== undefined) {
+        let numbersForRounding = Math.round(parseFloat(handledResult[1].slice(0, 3) + '.' + handledResult[1][3]));
+        return handledResult[0]+ '.' + numbersForRounding;
+    } else {
+        return result;
 
+    }
+
+
+};
 let operate = (num1, operator, num2) => {
-    let result = operations[operator](num1, num2);
+    let result = roundResult(operations[operator](num1, num2));
     if (result !== undefined) {
         firstNumber = result;
         inputArea.value = firstNumber;
-    }else {
+    } else {
         inputArea.value = '';
     }
 
