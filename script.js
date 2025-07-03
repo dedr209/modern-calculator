@@ -4,13 +4,23 @@ const operations = {
     '-': (num1, num2) => num1 - num2,
     '/': (num1, num2) => {
         if (num2 === 0) {
-            return 'You cannot divide on zero';
+            populateMessage('Supply second number with not 0 value');
+            operator = '/';
+        } else {
+            return num1 / num2;
         }
-        return num1 / num2;
     },
-}
+};
+
 let operate = (num1, operator, num2) => {
-    return operations[operator](num1, num2);
+    let result = operations[operator](num1, num2);
+    if (result !== undefined) {
+        firstNumber = result;
+        inputArea.value = firstNumber;
+    }else {
+        inputArea.value = '';
+    }
+
 }
 
 
@@ -74,8 +84,7 @@ getOperationValueButton.addEventListener('click', (event) => {
     console.log(secondNumber, firstNumber, operator);
     if (firstNumber !== undefined && operator !== undefined && secondNumber !== '') {
         clearMessagesList();
-        firstNumber = inputArea.value = operate(firstNumber, operator, parseFloat(inputArea.value));
-        operator = undefined;
+        operate(firstNumber, operator, parseFloat(inputArea.value));
     } else if (firstNumber === undefined && secondNumber === undefined || secondNumber === '') {
         clearMessagesList();
         populateMessage('Now provide number')
