@@ -15,7 +15,7 @@ let roundResult = (result) => {
     let handledResult = String(result).split('.');
     if (handledResult[1] !== undefined && handledResult[1][3] !== undefined) {
         let numbersForRounding = Math.round(parseFloat(handledResult[1].slice(0, 3) + '.' + handledResult[1][3]));
-        return handledResult[0]+ '.' + numbersForRounding;
+        return handledResult[0] + '.' + numbersForRounding;
     } else {
         return result;
 
@@ -23,13 +23,15 @@ let roundResult = (result) => {
 
 
 };
+let finishResultIsDisplayed = false;
 let operate = (num1, operator, num2) => {
     let result = roundResult(operations[operator](num1, num2));
     if (result !== undefined) {
-        firstNumber = result;
-        inputArea.value = firstNumber;
+        finishResultIsDisplayed = true;
+        inputArea.value = result;
     } else {
         inputArea.value = '';
+
     }
 
 }
@@ -64,7 +66,13 @@ let fillWithButtons = () => {
 };
 
 let displayCharacter = (event) => {
-    inputArea.value += event.target.textContent;
+    console.log(event.target.textContent)
+    if (finishResultIsDisplayed) {
+        inputArea.value = event.target.textContent;
+        finishResultIsDisplayed = false;
+    } else {
+        inputArea.value += event.target.textContent;
+    }
 };
 document.addEventListener('DOMContentLoaded', fillWithButtons);
 document.addEventListener('DOMContentLoaded', () => {
@@ -81,11 +89,13 @@ let firstNumber, operator, secondNumber;
 
 operationKeys.forEach(key => {
     key.addEventListener('click', (event) => {
-        if (inputArea.value !== '' || typeof firstNumber === 'undefined') {
+        if ((inputArea.value !== '' || typeof firstNumber === 'undefined') && !finishResultIsDisplayed) {
             firstNumber = parseFloat(inputArea.value);
             operator = event.target.textContent;
-            inputArea.value = '';
+        } else {
+            populateMessage('provide first number');
         }
+        inputArea.value = '';
     })
 })
 
@@ -98,10 +108,10 @@ getOperationValueButton.addEventListener('click', (event) => {
         operate(firstNumber, operator, parseFloat(inputArea.value));
     } else if (firstNumber === undefined && secondNumber === undefined || secondNumber === '') {
         clearMessagesList();
-        populateMessage('Now provide number')
+        populateMessage('Now provide a number')
     } else if (typeof operator === 'undefined') {
         clearMessagesList();
-        populateMessage('Provide operator')
+        populateMessage('Provide an operator')
     }
 });
 const populateMessage = (message) => {
