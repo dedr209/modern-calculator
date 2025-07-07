@@ -129,7 +129,6 @@ operationKeys.forEach(key => {
 let getOperationValueButton = document.querySelector('.equal')
 getOperationValueButton.addEventListener('click', (event) => {
     let secondNumber = inputArea.value;
-    console.log(secondNumber, firstNumber, operator);
     if (firstNumber !== undefined && operator !== undefined && secondNumber !== '') {
         clearMessagesList();
         operate(firstNumber, operator, parseFloat(inputArea.value));
@@ -139,7 +138,11 @@ getOperationValueButton.addEventListener('click', (event) => {
     } else if (typeof operator === 'undefined') {
         clearMessagesList();
         populateMessage('Provide an operator')
+    }else{
+        clearMessagesList();
     }
+
+
 });
 const populateMessage = (message) => {
     let listElement = messagesBlock.firstElementChild;

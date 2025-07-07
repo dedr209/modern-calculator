@@ -69,12 +69,18 @@ input[type="text"] {
 }
 
 .actions-block {
-    flex-wrap: wrap;
+    justify-content:  start;
+    flex-direction: column;
+    height: calc(80% - 4px);
+
     gap: 4px;
 }
 
 .actions-block > button {
+    background-color: cornflowerblue;
+    color: white;
     width: 100px;
+    height: 80px;
 }
 
 button {
@@ -96,7 +102,7 @@ body > .container {
     border: 5px solid black;
     background-color: red;
     height: 100px;
-    width: 50%;
+    width: 33%;
 }
 input[disabled] {
     opacity: 1;
@@ -104,4 +110,7 @@ input[disabled] {
     border: none;
     color: black;
     background-size: 0;
+}
+body > .container{
+    flex-direction: row;
 }
