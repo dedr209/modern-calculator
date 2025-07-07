@@ -28,6 +28,8 @@ let operate = (num1, operator, num2) => {
     let result = roundResult(operations[operator](num1, num2));
     if (result !== undefined) {
         finishResultIsDisplayed = true;
+        secondNumber = undefined;
+        firstNumber = undefined;
         inputArea.value = result;
     } else {
         inputArea.value = '';
@@ -66,15 +68,39 @@ let fillWithButtons = () => {
 };
 
 let displayCharacter = (event) => {
-    console.log(event.target.textContent)
-    if (finishResultIsDisplayed) {
+    if (event.target.textContent === '.') {
+        if (!finishResultIsDisplayed) {
+            if (floatingCharacterLogicChecking()) {
+                inputArea.value += event.target.textContent;
+            } else {
+                clearMessagesList();
+                populateMessage('Floating sign is not possible in second time')
+            }
+
+        } else {
+            clearMessagesList();
+            populateMessage('Floating sign is not possible at the start');
+            inputArea.value = '';
+        }
+    } else if (finishResultIsDisplayed) {
         inputArea.value = event.target.textContent;
         finishResultIsDisplayed = false;
     } else {
         inputArea.value += event.target.textContent;
     }
 };
+
+
+let floatingCharacterLogicChecking = () => {
+    let seperatedString = String(inputArea.value + '.').split('.');
+    if (seperatedString.length === 3) {
+        return false;
+    } else {
+        return true;
+    }
+}
 document.addEventListener('DOMContentLoaded', fillWithButtons);
+
 document.addEventListener('DOMContentLoaded', () => {
     let charactersButtons = document.querySelectorAll('.calc-variable');
     charactersButtons.forEach(button => {
@@ -93,7 +119,8 @@ operationKeys.forEach(key => {
             firstNumber = parseFloat(inputArea.value);
             operator = event.target.textContent;
         } else {
-            populateMessage('provide first number');
+            clearMessagesList();
+            populateMessage('provide an number');
         }
         inputArea.value = '';
     })
@@ -140,5 +167,31 @@ let messagesBlock = document.querySelector('.response-area');
 const deleteCharacterAction = document.querySelector('#delete-character');
 deleteCharacterAction.addEventListener('click', (event) => {
     inputArea.value = inputArea.value.slice(0, -1);
-    console.log(inputArea.value);
+
 });
+document.addEventListener('keydown', (event) => {
+    let targetButtons = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '', 'x', '/', '+', '-', '='];
+    let buttonClicked = event.key;
+
+    if (targetButtons.includes(buttonClicked)) {
+        let btn = findNeededButton(buttonClicked)
+        btn.dispatchEvent(new Event('click'));
+    } else if (buttonClicked === 'Enter') {
+        let btn = findNeededButton('=')
+        btn.dispatchEvent(new Event('click'));
+    } else if (buttonClicked === 'Backspace') {
+        deleteCharacterAction.dispatchEvent(new Event('click'));
+    }
+    console.log(buttonClicked);
+})
+
+const findNeededButton = (text) => {
+    let buttons = document.querySelectorAll('button');
+    let interestedButton;
+    buttons.forEach(button => {
+        if (button.textContent === text) {
+            interestedButton = button;
+        }
+    });
+    return interestedButton;
+}

@@ -98,3 +98,10 @@ body > .container {
     height: 100px;
     width: 50%;
 }
+input[disabled] {
+    opacity: 1;
+    background-color: white;
+    border: none;
+    color: black;
+    background-size: 0;
+}
